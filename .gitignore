@@ -1,6 +1,7 @@
 .DS_Store
 settings.js
 access.json
+data/*
 
 # Logs
 logs
