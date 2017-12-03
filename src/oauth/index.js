@@ -19,8 +19,7 @@ module.exports = function(callback) {
 
     const payload = {
       accessToken: accessToken,
-      refreshToken: refreshToken,
-      profile: profile
+      refreshToken: refreshToken
     };
 
     fs.writeFile(`auth/access.json`, JSON.stringify(payload, null, 4)).then(() => done(null, payload));
