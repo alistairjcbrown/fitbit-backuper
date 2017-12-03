@@ -2,4 +2,4 @@ language: node_js
 node_js:
   - "8"
 script:
- - if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then npm run nightly; fi
+ - if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then cp ./auth/settings.js.ci ./auth/settings.js && npm run nightly; fi

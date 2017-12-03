@@ -13,6 +13,10 @@ tokens, which may have changed.
 2. Log into Travis and view the settings for your newly forked `fitbit-backuper`
 repository.
 3. Add environment variables for:
+   - Fitbit OAuth application settings; you'll need to read setup instructions
+   in the main `README.md` for details on how to get these values
+      - `FITBIT_CLIENT_ID`
+      - `FITBIT_CLIENT_SECRET`
    - Fitbit credentials; you'll need to run the app locally once (see main
    `README.md`) and then get the details from `auth/access.json`
       - `FITBIT_ACCESS_TOKEN`

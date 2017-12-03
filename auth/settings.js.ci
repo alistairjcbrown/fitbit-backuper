@@ -1,0 +1,6 @@
+module.exports = {
+  oauth: {
+    clientID: process.env.FITBIT_CLIENT_ID,
+    clientSecret: process.env.FITBIT_CLIENT_SECRET
+  }
+};
