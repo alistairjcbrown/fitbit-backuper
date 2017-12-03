@@ -1,3 +1,4 @@
+require('dotenv').load();
 const fs = require('fs-extra');
 const moment = require('moment');
 const _ = require('lodash');
@@ -28,7 +29,7 @@ const retrieveDataFor = function (date, callback) {
 const retrieveMissingData = function (dateFrom, callback) {
   const startingDate = moment(dateFrom).startOf('day');
   const daysBetween = moment().startOf('day').diff(startingDate, 'days') - 1;
-  if (daysBetween <= 0) {
+  if (daysBetween + 1 <= 0) {
     console.log("Date provided is not in the past");
     callback(new Error("Date provided is not in the past"));
     return;
@@ -39,23 +40,25 @@ const retrieveMissingData = function (dateFrom, callback) {
     dataAlreadyRetrieved(dateToRetrieve).then(function (exists) {
       if (exists) {
         console.log(`Data for ${dateToRetrieve.format('YYYY-MM-DD')} already exists`);
-        return getDataIfMissing(addedDays + 1);
+        if (addedDays < daysBetween) return getDataIfMissing(addedDays + 1);
+        return callback();
       }
 
       retrieveDataFor(dateToRetrieve, function () {
         if (addedDays < daysBetween) return getDataIfMissing(addedDays + 1);
-        callback();
+        return callback();
       });
     });
   };
   getDataIfMissing(0);
 };
 
-const completed = function () {
-  console.log("Completed");
-};
+module.exports = function(dateFrom, callback) {
+  const completed = function () {
+    console.log("Completed");
+    callback();
+  };
 
-module.exports = function(dateFrom) {
   if (_.isEmpty(auth.getAccess())) {
     authenticate(function (err) {
       if (err !== null) {

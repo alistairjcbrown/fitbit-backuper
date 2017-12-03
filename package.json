@@ -5,18 +5,22 @@
   "main": "index.js",
   "scripts": {
     "backup": "node index.js",
+    "nightly": "node nightly-run",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Alistair Brown <npm@alisstairjcbrown.com>",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.6.0",
     "axios": "^0.16.2",
     "decache": "^4.2.0",
     "dotenv": "^4.0.0",
     "express": "^4.15.4",
     "fs-extra": "^4.0.1",
+    "github-api": "^3.0.0",
     "lodash": "^4.17.4",
     "moment": "^2.19.1",
+    "node-dir": "^0.1.17",
     "passport": "^0.4.0",
     "passport-fitbit-oauth2": "^1.0.2"
   }

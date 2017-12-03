@@ -71,8 +71,8 @@ module.exports = {
       return require('../auth/access');
     } catch (e) {
       return {
-        accessToken: process.env.ACCESS_TOKEN,
-        refreshToken: process.env.REFRESH_TOKEN
+        accessToken: process.env.FITBIT_ACCESS_TOKEN,
+        refreshToken: process.env.FITBIT_REFRESH_TOKEN
       };
     }
   }

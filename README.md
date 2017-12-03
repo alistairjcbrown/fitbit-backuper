@@ -53,3 +53,7 @@ The first time you run the application, you'll need to log in. The output on the
 console will promp you to open a webpage where you'll be able to log into
 fitbit. This will provide the app with a oauth token (and refresh token) which
 it can use on subsequent runs. These details are saved in the `auth/` directory.
+
+### Running dailing on Travis
+
+For more details running this every day, see the [nightly run section](nightly-run/).
