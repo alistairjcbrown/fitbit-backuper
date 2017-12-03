@@ -70,7 +70,10 @@ module.exports = {
       decache('../auth/access')
       return require('../auth/access');
     } catch (e) {
-      return {};
+      return {
+        accessToken: process.env.ACCESS_TOKEN,
+        refreshToken: process.env.REFRESH_TOKEN
+      };
     }
   }
 };
