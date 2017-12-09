@@ -70,6 +70,10 @@ module.exports = {
       decache('../auth/access')
       return require('../auth/access');
     } catch (e) {
+      if (_.isEmpty(process.env.FITBIT_ACCESS_TOKEN) || _.isEmpty(process.env.FITBIT_REFRESH_TOKEN)) {
+        return;
+      }
+
       return {
         accessToken: process.env.FITBIT_ACCESS_TOKEN,
         refreshToken: process.env.FITBIT_REFRESH_TOKEN

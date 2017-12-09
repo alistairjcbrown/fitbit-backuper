@@ -56,7 +56,10 @@ const retrieveMissingData = function (dateFrom, callback) {
 module.exports = function(dateFrom, callback) {
   const completed = function () {
     console.log("Completed");
-    callback();
+
+    if (_.isFunction(callback)) {
+      callback();
+    }
   };
 
   if (_.isEmpty(auth.getAccess())) {
