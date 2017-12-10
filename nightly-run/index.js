@@ -8,13 +8,19 @@ const auth = require('../src/auth');
 const github = require('./github');
 const travis = require('./travis');
 
-const boundaryDate = moment().subtract(1, 'days').format('YYYY-MM-DD');
+const getBoundaryDate = function () {
+  if (process.argv[2]) return moment(process.argv[2]).format('YYYY-MM-DD');
+  return moment().subtract(1, 'days').format('YYYY-MM-DD');
+};
+
+const boundaryDate = getBoundaryDate();
 
 console.log('Running nightly backup\n');
 console.log(` - Pulling data for ${boundaryDate}`)
 console.log('------------------------------------------------');
-runBackupFrom(boundaryDate, function () {
+runBackupFrom(boundaryDate, function (err) {
   console.log('------------------------------------------------');
+  if (err) throw err;
 
   const dataPath = path.join(__dirname, '../data');
   console.log(` - Reading in pulled data from ${dataPath}`)
@@ -35,6 +41,13 @@ runBackupFrom(boundaryDate, function () {
 
     github.push(boundaryDate, files, function (err) {
       if (err) throw err;
+
+      const travisAccessToken = process.env.TRAVIS_ACCESS_TOKEN;
+      if (!travisAccessToken) {
+        console.log('No Travis token available - assuming local run');
+        console.log('Run complete');
+        return;
+      }
 
       const access = auth.getAccess();
       const environmentVariables = {
