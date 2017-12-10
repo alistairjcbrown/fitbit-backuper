@@ -6,6 +6,11 @@ const authenticate = require('./oauth');
 const getData = require('./get-data');
 const auth = require('./auth');
 
+process.on('unhandledRejection', (e) => {
+  console.log('unhandledRejection', e);
+  process.exit(1);
+});
+
 const dataAlreadyRetrieved = function (date) {
   return fs.pathExists(`./data/${date.format('YYYY/MM/DD')}/heart.json`);
 };
@@ -54,11 +59,15 @@ const retrieveMissingData = function (dateFrom, callback) {
 };
 
 module.exports = function(dateFrom, callback) {
-  const completed = function () {
-    console.log("Completed");
+  const completed = function (err) {
+    if (err) {
+      console.log("Error encountered");
+    } else {
+      console.log("Completed");
+    }
 
     if (_.isFunction(callback)) {
-      callback();
+      callback(err);
     }
   };
 
@@ -66,6 +75,7 @@ module.exports = function(dateFrom, callback) {
     authenticate(function (err) {
       if (err !== null) {
         console.log('Unable to authenticate on fresh authentication', err);
+        completed(err);
         return;
       }
 
@@ -78,6 +88,7 @@ module.exports = function(dateFrom, callback) {
         auth.refresh(function (err) {
           if (err !== null) {
             console.log('Unable to authenticate on token refresh', err.response.data);
+            completed(err);
             return;
           }
 
